@@ -78,7 +78,7 @@ def get_parser():
                         help='if activated, will show logs in stdout instead of log file.')
     parser.set_defaults(log_term=True)
     parser.add_argument('--visdom', dest='visdom', action='store_true')
-    parser.set_defaults(visdom=False)
+    parser.set_defaults(visdom=True)
     parser.add_argument('-port', dest='port', default=8097, type=int, help='visdom port')
     parser.add_argument('-server', dest='server', default='http://localhost', help='visdom server')
 
