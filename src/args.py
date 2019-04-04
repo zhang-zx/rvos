@@ -76,7 +76,7 @@ def get_parser():
     parser.add_argument('-print_every', dest='print_every', default=10, type=int)
     parser.add_argument('--log_term', dest='log_term', action='store_true',
                         help='if activated, will show logs in stdout instead of log file.')
-    parser.set_defaults(log_term=True)
+    parser.set_defaults(log_term=False)
     parser.add_argument('--visdom', dest='visdom', action='store_true')
     parser.set_defaults(visdom=True)
     parser.add_argument('-port', dest='port', default=8097, type=int, help='visdom port')

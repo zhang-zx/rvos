@@ -10,11 +10,11 @@ class ConvLSTMCell(nn.Module):
     """
 
     def __init__(self, args, input_size, hidden_size, kernel_size, padding):
-        super(ConvLSTMCell,self).__init__()
+        super(ConvLSTMCell, self).__init__()
         self.use_gpu = args.use_gpu
         self.input_size = input_size
         self.hidden_size = hidden_size
-        self.Gates = nn.Conv2d(input_size + 2*hidden_size, 4 * hidden_size, kernel_size, padding=padding)
+        self.Gates = nn.Conv2d(input_size + 2 * hidden_size, 4 * hidden_size, kernel_size, padding=padding)
 
     def forward(self, input_, prev_state_spatial, hidden_state_temporal):
 
@@ -35,14 +35,13 @@ class ConvLSTMCell(nn.Module):
                     Variable(torch.zeros(state_size)),
                     Variable(torch.zeros(state_size))
                 )
-                
+
         if hidden_state_temporal is None:
             state_size = [batch_size, self.hidden_size] + list(spatial_size)
             if self.use_gpu:
                 hidden_state_temporal = Variable(torch.zeros(state_size)).cuda()
             else:
                 hidden_state_temporal = Variable(torch.zeros(state_size))
-
 
         prev_hidden_spatial, prev_cell_spatial = prev_state_spatial
 
@@ -64,9 +63,10 @@ class ConvLSTMCell(nn.Module):
         cell = (remember_gate * prev_cell_spatial) + (in_gate * cell_gate)
         hidden = out_gate * f.tanh(cell)
 
-        state = [hidden,cell]
+        state = [hidden, cell]
 
         return state
+
 
 class ConvLSTMCellMask(nn.Module):
     """
@@ -74,11 +74,11 @@ class ConvLSTMCellMask(nn.Module):
     """
 
     def __init__(self, args, input_size, hidden_size, kernel_size, padding):
-        super(ConvLSTMCellMask,self).__init__()
+        super(ConvLSTMCellMask, self).__init__()
         self.use_gpu = args.use_gpu
         self.input_size = input_size
         self.hidden_size = hidden_size
-        self.Gates = nn.Conv2d(input_size + 2*hidden_size + 1, 4 * hidden_size, kernel_size, padding=padding)
+        self.Gates = nn.Conv2d(input_size + 2 * hidden_size + 1, 4 * hidden_size, kernel_size, padding=padding)
 
     def forward(self, input_, prev_mask, prev_state_spatial, hidden_state_temporal):
 
@@ -99,14 +99,13 @@ class ConvLSTMCellMask(nn.Module):
                     Variable(torch.zeros(state_size)),
                     Variable(torch.zeros(state_size))
                 )
-                
+
         if hidden_state_temporal is None:
             state_size = [batch_size, self.hidden_size] + list(spatial_size)
             if self.use_gpu:
                 hidden_state_temporal = Variable(torch.zeros(state_size)).cuda()
             else:
                 hidden_state_temporal = Variable(torch.zeros(state_size))
-
 
         prev_hidden_spatial, prev_cell_spatial = prev_state_spatial
 
@@ -130,6 +129,6 @@ class ConvLSTMCellMask(nn.Module):
         hidden = out_gate * f.tanh(cell)
         del cell_gate, out_gate, remember_gate, in_gate, gates, stacked_inputs
 
-        state = [hidden,cell]
+        state = [hidden, cell]
 
         return state
